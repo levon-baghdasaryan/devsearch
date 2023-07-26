@@ -5,7 +5,6 @@ import os
 
 
 def index(request):
-    print(os.environ.get('ALLOWED_HOSTS'))
     projects = Project.objects.all()
 
     return render(
