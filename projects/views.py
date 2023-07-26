@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Project
 from .forms import ProjectForm
-import os
 
 
 def index(request):
@@ -12,6 +11,7 @@ def index(request):
         'projects/index.html',
         {'projects': projects}
     )
+
 
 def create(request):
     form = ProjectForm()
@@ -24,6 +24,7 @@ def create(request):
     context = {'form': form}
     return render(request, 'projects/create-edit.html', context)
 
+
 def show(request, id):
     project = Project.objects.get(id=id)
 
@@ -32,6 +33,7 @@ def show(request, id):
         'projects/show.html',
         {'project': project}
     )
+
 
 def edit(request, id):
     project = Project.objects.get(id=id)
@@ -44,6 +46,7 @@ def edit(request, id):
 
     context = {'form': form}
     return render(request, 'projects/create-edit.html', context)
+
 
 def delete(request, id):
     project = Project.objects.get(id=id)
