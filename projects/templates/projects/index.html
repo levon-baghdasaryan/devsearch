@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Projects</h1>
+
+<ul>
+    {% for project in projects %}
+        <li>
+            Title: {{ project.title }} -
+            {% if project.tags.all %}
+                ---
+                Tags:
+                {% for tag in project.tags.all %}
+                    <span style="color:red;">{{ tag }}</span>
+                {% endfor %}
+            {% endif %}
+            <a href="{{ project.get_absolute_url }}" style='color:blue;'>View</a>
+            <a href="{% url 'projects:edit' project.id %}" style='color:green;'>Edit</a>
+            <a href="{% url 'projects:delete' project.id %}" style='color:red;'>Delete</a>
+        </li>
+        <div style="color:red;">
+        </div>
+    {% endfor %}
+</ul>
+{% endblock content %}
