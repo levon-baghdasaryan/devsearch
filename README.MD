@@ -1,8 +1,8 @@
 # DevSearch Project
 
 ## Tech Stack
-* Python
-* Django
+* Python 3.9.13
+* Django 3.2.4
 * MySql
 
 ## Installation
