@@ -19,7 +19,7 @@ def create(request):
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('projects:index')
 
     context = {'form': form}
     return render(request, 'projects/create-edit.html', context)
@@ -42,7 +42,7 @@ def edit(request, id):
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('projects:index')
 
     context = {'form': form}
     return render(request, 'projects/create-edit.html', context)
@@ -52,6 +52,6 @@ def delete(request, id):
     project = Project.objects.get(id=id)
     if request.method == 'POST':
         project.delete()
-        return redirect('home')
+        return redirect('projects:index')
     context = {'object': project}
     return render(request, 'projects/delete-template.html', context)
