@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.contrib import messages
 
 from .models import Profile
+from .forms import CustomUserCreationForm
 
 
 def loginUser(request):
@@ -15,7 +16,7 @@ def loginUser(request):
 
         try:
             get_user_model().objects.get(username=username)
-        except:
+        except Exception:
             messages.error(request, 'Username does not exist')
             print('Username does not exist')
 
@@ -28,12 +29,32 @@ def loginUser(request):
             messages.error(request, 'Username OR password is incorrect.')
             print('Username OR password is incorrect.')
 
-    return render(request, 'users/login-register.html')
+    return render(request, 'users/login.html')
+
 
 def logoutUser(request):
     logout(request)
     messages.error(request, 'User logged out!')
     return redirect('users:login')
+
+
+def registerUser(request):
+    form = CustomUserCreationForm()
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        print(form)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+
+            messages.success(request, 'User account was created!')
+            login(request, user)
+            return redirect('users:index')
+
+    context = {'form': form}
+    return render(request, 'users/register.html', context)
 
 
 def index(request):
