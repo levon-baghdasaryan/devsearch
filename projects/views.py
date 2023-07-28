@@ -17,7 +17,7 @@ def index(request):
     )
 
 
-@login_required(login_url='users:login')
+@login_required
 def create(request):
     form = ProjectForm()
     if request.method == 'POST':
@@ -41,7 +41,7 @@ def show(request, id):
     )
 
 
-@login_required(login_url='users:login')
+@login_required
 def edit(request, id):
     project = Project.objects.get(id=id)
     form = ProjectForm(instance=project)
@@ -55,7 +55,7 @@ def edit(request, id):
     return render(request, 'projects/create-edit.html', context)
 
 
-@login_required(login_url='users:login')
+@login_required
 def delete(request, id):
     project = Project.objects.get(id=id)
     if request.method == 'POST':
