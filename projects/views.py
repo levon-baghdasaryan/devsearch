@@ -7,7 +7,6 @@ from .forms import ProjectForm
 
 
 def index(request):
-    print('hello')
     projects = Project.objects.all()
 
     return render(

@@ -13,5 +13,6 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
 
-        for fieldname in ['username', 'password1', 'password2']:
-            self.fields[fieldname].help_text = None
+        for _, field in self.fields.items():
+            # field.help_text = None
+            field.widget.attrs.update({'class': 'input'})

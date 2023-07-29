@@ -34,16 +34,18 @@ def loginUser(request):
 
 def logoutUser(request):
     logout(request)
-    messages.error(request, 'User logged out!')
+    messages.info(request, 'User logged out!')
     return redirect('users:login')
 
 
 def registerUser(request):
+    if request.user.is_authenticated:
+        return redirect('users:index')
+
     form = CustomUserCreationForm()
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        print(form)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
