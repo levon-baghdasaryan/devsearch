@@ -18,11 +18,14 @@ def index(request):
 
 @login_required
 def create(request):
+    profile = request.user.profile
     form = ProjectForm()
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            project = form.save(commit=False)
+            project.owner = profile
+            project.save()
             messages.success(request, "You successfully added a project.")
             return redirect('projects:index')
 
@@ -42,7 +45,8 @@ def show(request, id):
 
 @login_required
 def edit(request, id):
-    project = Project.objects.get(id=id)
+    profile = request.user.profile
+    project = profile.project_set.get(id=id)
     form = ProjectForm(instance=project)
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES, instance=project)
@@ -56,7 +60,8 @@ def edit(request, id):
 
 @login_required
 def delete(request, id):
-    project = Project.objects.get(id=id)
+    profile = request.user.profile
+    project = profile.project_set.get(id=id)
     if request.method == 'POST':
         project.delete()
         return redirect('projects:index')
