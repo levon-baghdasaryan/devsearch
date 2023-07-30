@@ -13,4 +13,7 @@ urlpatterns = [
     path('users/<str:id>/', views.show, name='show'),
     path('account/', views.account, name='account'),
     path('edit/', views.edit, name='edit'),
+    path('create-skill/', views.create_skill, name='create-skill'),
+    path('edit-skill/<str:id>/', views.edit_skill, name='edit-skill'),
+    path('delete-skill/<str:id>/', views.delete_skill, name='delete-skill'),
 ]

@@ -27,7 +27,7 @@ def create(request):
             project.owner = profile
             project.save()
             messages.success(request, "You successfully added a project.")
-            return redirect('projects:index')
+            return redirect('users:account')
 
     context = {'form': form}
     return render(request, 'projects/create-edit.html', context)
@@ -35,12 +35,7 @@ def create(request):
 
 def show(request, id):
     project = Project.objects.get(id=id)
-
-    return render(
-        request,
-        'projects/show.html',
-        {'project': project}
-    )
+    return render(request, 'projects/show.html', {'project': project})
 
 
 @login_required
@@ -52,7 +47,7 @@ def edit(request, id):
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             form.save()
-            return redirect('projects:index')
+            return redirect('users:account')
 
     context = {'form': form}
     return render(request, 'projects/create-edit.html', context)
@@ -66,4 +61,4 @@ def delete(request, id):
         project.delete()
         return redirect('projects:index')
     context = {'object': project}
-    return render(request, 'projects/delete-template.html', context)
+    return render(request, 'delete-template.html', context)
