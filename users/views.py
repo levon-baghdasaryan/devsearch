@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .models import Profile
@@ -75,3 +76,16 @@ def show(request, id):
         'otherSkills': otherSkills,
     }
     return render(request, 'users/show.html', context)
+
+
+@login_required
+def account(request):
+    profile = request.user.profile
+    skills = profile.skill_set.all()
+    projects = profile.project_set.all()
+    context = {
+        'profile': profile,
+        'skills': skills,
+        'projects': projects,
+    }
+    return render(request, 'users/account.html', context)

@@ -11,4 +11,5 @@ urlpatterns = [
 
     path('', views.index, name='index'),
     path('users/<str:id>/', views.show, name='show'),
+    path('account/', views.account, name='account'),
 ]
