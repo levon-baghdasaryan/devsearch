@@ -27,3 +27,8 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler400 = 'devsearch.views.handler400'
+handler403 = 'devsearch.views.handler403'
+handler404 = 'devsearch.views.handler404'
+handler500 = 'devsearch.views.handler500'
