@@ -1,6 +1,17 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 import uuid
+
+
+class ProfileManager(models.Manager):
+    def search(self, search_query):
+        skills = Skill.objects.filter(name__icontains=search_query)
+        return self.get_queryset().distinct().filter(
+            Q(name__icontains=search_query) |
+            Q(short_intro__icontains=search_query) |
+            Q(skill__in=skills)
+        )
 
 
 class Profile(models.Model):
@@ -24,6 +35,8 @@ class Profile(models.Model):
     social_website = models.CharField(max_length=200, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    objects = ProfileManager()
 
     def __str__(self):
         return (self.user.username)

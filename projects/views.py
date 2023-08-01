@@ -7,12 +7,16 @@ from .forms import ProjectForm
 
 
 def index(request):
-    projects = Project.objects.all()
+    search_query = request.GET.get('q', '')
+    projects = Project.objects.search(search_query)
 
     return render(
         request,
         'projects/index.html',
-        {'projects': projects}
+        {
+            'projects': projects,
+            'search_query': search_query,
+        }
     )
 
 

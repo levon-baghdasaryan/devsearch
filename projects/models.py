@@ -1,8 +1,20 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models import Q
 import uuid
 
 from users.models import Profile
+
+
+class ProjectManager(models.Manager):
+    def search(self, search_query):
+        tags = Tag.objects.filter(name__icontains=search_query)
+        return self.get_queryset().distinct().filter(
+            Q(title__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(owner__name__icontains=search_query) |
+            Q(tags__in=tags)
+        )
 
 
 class Project(models.Model):
@@ -21,6 +33,8 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField('Tag', blank=True)
+
+    objects = ProjectManager()
 
     def __str__(self):
         return self.title

@@ -61,8 +61,12 @@ def registerUser(request):
 
 
 def index(request):
-    profiles = Profile.objects.all()
-    context = {'profiles': profiles}
+    search_query = request.GET.get('q', '')
+    profiles = Profile.objects.search(search_query)
+    context = {
+        'profiles': profiles,
+        'search_query': search_query,
+    }
     return render(request, 'users/index.html', context)
 
 
@@ -89,7 +93,7 @@ def edit(request):
             return redirect('users:account')
 
     context = {'form': form}
-    return render(request, 'users/profile-form.html', context)
+    return render(request, 'users/edit.html', context)
 
 
 @login_required
