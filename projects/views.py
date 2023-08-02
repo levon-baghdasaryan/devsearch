@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from .models import Project
-from .forms import ProjectForm
+from .forms import ProjectForm, ReviewForm
 
 
 def index(request):
@@ -64,7 +64,25 @@ def create(request):
 
 def show(request, id):
     project = Project.objects.get(id=id)
-    return render(request, 'projects/show.html', {'project': project})
+    form = ReviewForm(request.POST or None)
+
+    if form.is_valid():
+        review = form.save(commit=False)
+        review.project = project
+        review.owner = request.user.profile
+        review.save()
+        project.getVoteCount
+        messages.success(request, 'Your review was successfully submitted!')
+        form = ReviewForm()
+
+    return render(
+        request,
+        'projects/show.html',
+        {
+            'project': project,
+            'form': form,
+        }
+    )
 
 
 @login_required
