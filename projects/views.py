@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from .models import Project
 from .forms import ProjectForm
@@ -8,7 +9,30 @@ from .forms import ProjectForm
 
 def index(request):
     search_query = request.GET.get('q', '')
-    projects = Project.objects.search(search_query)
+    page_num = request.GET.get('page', 1)
+    paginator = Paginator(Project.objects.search(search_query), 3)
+
+    try:
+        projects = paginator.page(page_num)
+    except PageNotAnInteger:
+        page_num = 1
+        projects = paginator.page(page_num)
+    except EmptyPage:
+        page_num = paginator.num_pages
+        projects = paginator.page(page_num)
+
+    page_num = int(page_num)
+    left_index = page_num - 2
+
+    if left_index < 1:
+        left_index = 1
+
+    right_index = page_num + 3
+
+    if right_index > paginator.num_pages:
+        right_index = paginator.num_pages + 1
+
+    custom_range = range(left_index, right_index)
 
     return render(
         request,
@@ -16,6 +40,7 @@ def index(request):
         {
             'projects': projects,
             'search_query': search_query,
+            'custom_range': custom_range,
         }
     )
 

@@ -36,6 +36,9 @@ class Project(models.Model):
 
     objects = ProjectManager()
 
+    class Meta:
+        ordering = ['created']
+
     def __str__(self):
         return self.title
 
