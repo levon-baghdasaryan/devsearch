@@ -4,7 +4,7 @@
 
 		<li>
 			{% if projects.has_previous %}
-			<a href="?page={{projects.previous_page_number}}" class="btn">
+			<a href="?q={{search_query}}&page={{projects.previous_page_number}}" class="btn">
 				&#10094; Prev
 			</a>
 			{% endif %}
@@ -12,7 +12,7 @@
 
 		{% for page in custom_range %}
 		<li>
-			<a href="?page={{page}}" class="btn{% if page == projects.number %} btn--sub{% endif %}">
+			<a href="?q={{search_query}}&page={{page}}" class="btn{% if page == projects.number %} btn--sub{% endif %}">
 				{{ page }}
 			</a>
 		</li>
@@ -20,7 +20,7 @@
 
 		<li>
 			{% if projects.has_next %}
-			<a href="?page={{projects.next_page_number}}" class="btn">
+			<a href="?q={{search_query}}&page={{projects.next_page_number}}" class="btn">
 				Next &#10095;
 			</a>
 			{% endif %}
