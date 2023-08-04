@@ -1,24 +1,25 @@
 from django.urls import path
 
-from . import views
+from .views import auth_view, user_view, skill_view, message_view
 
 app_name = 'users'
 urlpatterns = [
-    path('login/', views.loginUser, name='login'),
-    path('logout/', views.logoutUser, name='logout'),
-    path('register/', views.registerUser, name='register'),
+    path('login/', auth_view.login, name='login'),
+    path('logout/', auth_view.logout, name='logout'),
+    path('register/', auth_view.register, name='register'),
 
-    path('', views.index, name='index'),
-    path('users/<str:id>/', views.show, name='show'),
-    path('account/', views.account, name='account'),
-    path('edit/', views.edit, name='edit'),
+    path('', user_view.index, name='index'),
+    path('users/account/', user_view.account, name='account'),
+    path('users/edit/', user_view.edit, name='edit'),
+    path('users/<str:id>/', user_view.show, name='show'),
 
-    path('create-skill/', views.create_skill, name='create-skill'),
-    path('edit-skill/<str:id>/', views.edit_skill, name='edit-skill'),
-    path('delete-skill/<str:id>/', views.delete_skill, name='delete-skill'),
+    path('skills/create/', skill_view.create_skill, name='create-skill'),
+    path('skills/edit/<str:id>/', skill_view.edit_skill, name='edit-skill'),
+    path('skills/delete/<str:id>/', skill_view.delete_skill,
+         name='delete-skill'),
 
-    path('inbox/', views.inbox, name='inbox'),
-    path('message/<str:id>/', views.view_message, name='message'),
-    path('create-message/<str:id>/', views.create_message,
+    path('messages/', message_view.index, name='inbox'),
+    path('messages/<str:id>/', message_view.show, name='message'),
+    path('messages/create/<str:id>/', message_view.create,
          name='create-message'),
 ]
