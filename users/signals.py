@@ -1,17 +1,21 @@
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 from .models import Profile
+from .emails import register_user_email
 
 
 def createProfile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(
+        profile = Profile.objects.create(
             user=instance,
             username=instance.username,
             email=instance.email,
             name=instance.first_name
         )
+
+        register_user_email(profile, settings.EMAIL_HOST_USER)
 
 
 def updateUser(sender, instance, created, **kwargs):
