@@ -4,7 +4,7 @@
 <main class="messagePage my-xl">
 	<div class="content-box">
 		<div class="message">
-			<a class="backButton" href="{% url 'users:inbox' %}">Back</a>
+			<a class="backButton" href="{% url 'users:messages-index' %}">Back</a>
 			<h2 class="message__subject">{{ message.subject }}</h2>
 				<a href="profile.html" class="message__author">{{ message.name }}</a>
 				<p class="message__date">{{ message.created }}</p>

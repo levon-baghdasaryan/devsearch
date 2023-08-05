@@ -32,14 +32,14 @@ urlpatterns = [
     path('users/<str:id>/', user_view.show, name='show'),
 
     # Skills routes
-    path('skills/create/', skill_view.create_skill, name='create-skill'),
-    path('skills/edit/<str:id>/', skill_view.edit_skill, name='edit-skill'),
-    path('skills/delete/<str:id>/', skill_view.delete_skill,
+    path('skills/create/', skill_view.create, name='skills-create'),
+    path('skills/edit/<str:id>/', skill_view.edit, name='skills-edit'),
+    path('skills/delete/<str:id>/', skill_view.delete,
          name='delete-skill'),
 
     # Message routes
-    path('messages/', message_view.index, name='inbox'),
-    path('messages/<str:id>/', message_view.show, name='message'),
+    path('messages/', message_view.index, name='messages-index'),
+    path('messages/<str:id>/', message_view.show, name='messages-show'),
     path('messages/create/<str:id>/', message_view.create,
-         name='create-message'),
+         name='messages-create'),
 ]

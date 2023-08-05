@@ -6,7 +6,7 @@ from ..forms import SkillForm
 
 
 @login_required
-def create_skill(request):
+def create(request):
     form = SkillForm(request.POST or None)
     if form.is_valid():
         skill = form.save(commit=False)
@@ -19,7 +19,7 @@ def create_skill(request):
 
 
 @login_required
-def edit_skill(request, id):
+def edit(request, id):
     profile = request.user.profile
     skill = profile.skill_set.get(id=id)
     form = SkillForm(instance=skill)
@@ -34,7 +34,7 @@ def edit_skill(request, id):
 
 
 @login_required
-def delete_skill(request, id):
+def delete(request, id):
     profile = request.user.profile
     skill = profile.skill_set.get(id=id)
     if request.method == 'POST':

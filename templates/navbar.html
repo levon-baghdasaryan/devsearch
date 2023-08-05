@@ -16,7 +16,7 @@
             <li class="header__menuItem"><a href="{% url 'users:index' %}">Developers</a></li>
             <li class="header__menuItem"><a href="{% url 'projects:index' %}">Projects</a></li>
             {% if request.user.is_authenticated %}
-                <li class="header__menuItem"><a href="{% url 'users:inbox' %}">Inbox</a></li>
+                <li class="header__menuItem"><a href="{% url 'users:messages-index' %}">Inbox</a></li>
                 <li class="header__menuItem">
                     <a href="{% url 'users:account' %}" class="btn btn--sub">
                         {{ request.user.username|upper }}
