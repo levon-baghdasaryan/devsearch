@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import (
     login as login_user, logout as logout_user, authenticate, get_user_model
 )
+from django.contrib.auth import views as auth
+from django.urls import reverse_lazy
 from django.contrib import messages
 
 from ..forms import CustomUserCreationForm
@@ -58,3 +60,22 @@ def register(request):
 
     context = {'form': form}
     return render(request, 'users/auth/register.html', context)
+
+
+class CustomPasswordResetView(auth.PasswordResetView):
+    email_template_name = 'users/auth/password-reset-email.html'
+    success_url = reverse_lazy('users:password-reset-sent')
+    template_name = 'users/auth/password-reset.html'
+
+
+class CustomPasswordResetSentView(auth.PasswordResetDoneView):
+    template_name = 'users/auth/password-reset-sent.html'
+
+
+class CustomPasswordResetConfirmView(auth.PasswordResetConfirmView):
+    success_url = reverse_lazy('users:password-reset-complete')
+    template_name = 'users/auth/password-reset-confirm.html'
+
+
+class CustomPasswordResetCompleteView(auth.PasswordResetCompleteView):
+    template_name = 'users/auth/password-reset-complete.html'
