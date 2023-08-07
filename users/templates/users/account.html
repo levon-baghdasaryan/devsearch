@@ -11,7 +11,9 @@
 						<a class="tag tag--pill tag--main settings__btn" href="{% url 'users:edit' %}">
 							<i class="im im-edit"></i> Edit
 						</a>
-						<img class="avatar avatar--xl dev__avatar" src="{{ profile.profile_image.url }}"/>
+						{% if profile.imageURL %}
+							<img class="avatar avatar--xl dev__avatar" src="{{ profile.imageURL }}"/>
+						{% endif %}
 						<h2 class="dev__name">{{ profile.name }}</h2>
 						<p class="dev__title">{{ profile.short_intro }}</p>
 						<p class="dev__location">Based in {{ profile.location }}</p>
@@ -88,7 +90,7 @@
 					<tr id="{{ project.id }}">
 						<td class="settings__thumbnail">
 							<a href="{% url 'projects:show' project.id %}">
-								<img src="{{ project.featured_image.url }}" alt="Project Thumbnail"/>
+								<img src="{{ project.imageURL }}" alt="Project Thumbnail"/>
 							</a>
 						</td>
 						<td class="settings__tableInfo">

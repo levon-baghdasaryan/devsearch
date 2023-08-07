@@ -38,8 +38,19 @@ class Profile(models.Model):
 
     objects = ProfileManager()
 
+    class Meta:
+        ordering = ['created']
+
     def __str__(self):
         return (self.user.username)
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.profile_image.url
+        except Exception:
+            url = ''
+        return url
 
 
 class Skill(models.Model):

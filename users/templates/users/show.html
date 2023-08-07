@@ -1,45 +1,52 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<!-- Main Section -->
 <main class="profile my-md">
 	<div class="container">
 		<div class="layout">
 			<div class="column column--1of3">
 				<div class="card text-center">
 					<div class="card__body dev">
-						<img class="avatar avatar--xl" src="{{ profile.profile_image.url }}" />
+						<img class="avatar avatar--xl" src="{{ profile.imageURL }}" />
 						<h2 class="dev__name">{{ profile.name }}</h2>
 						<p class="dev__title">{{ profile.short_intro }}</p>
 						<p class="dev__location">Based in {{ profile.location }}</p>
 						<ul class="dev__social">
 							{% if profile.social_github %}
 								<li>
-									<a title="Github" href="#" target="_blank"><i class="im im-github"></i></a>
+									<a title="Github" href="#" target="_blank">
+										<i class="im im-github"></i>
+									</a>
 								</li>
 							{% endif %}
 
 							{% if profile.social_twitter %}
 								<li>
-									<a title="Twitter" href="{{ profile.social_twitter }}" target="_blank"><i class="im im-twitter"></i></a>
+									<a title="Twitter" href="{{ profile.social_twitter }}" target="_blank">
+										<i class="im im-twitter"></i>
+									</a>
 								</li>
 							{% endif %}
 
 							{% if profile.social_linkedin %}
 								<li>
-									<a title="LinkedIn" href="{{ profile.social_linkedin }}" target="_blank"><i class="im im-linkedin"></i></a>
+									<a title="LinkedIn" href="{{ profile.social_linkedin }}" target="_blank">
+										<i class="im im-linkedin"></i>
+									</a>
 								</li>
 							{% endif %}
 
 							{% if profile.social_website %}
 								<li>
-									<a title="Personal Website" href="profile.social_website" target="_blank"><i class="im im-globe"></i></a>
+									<a title="Personal Website" href="profile.social_website" target="_blank">
+										<i class="im im-globe"></i>
+									</a>
 								</li>
 							{% endif %}
 
 						</ul>
 						{% if request.user.profile.id != profile.id %}
-							<a href="{% url 'users:create-message' profile.id %}" class="btn btn--sub btn--lg">
+							<a href="{% url 'users:messages-create' profile.id %}" class="btn btn--sub btn--lg">
 								Send Message
 							</a>
 						{% endif %}
@@ -81,7 +88,7 @@
 							<div class="column">
 								<div class="card project">
 									<a href="{% url 'projects:show' project.id %}" class="project">
-										<img class="project__thumbnail" src="{{ project.featured_image.url }}" alt="project thumbnail" />
+										<img class="project__thumbnail" src="{{ project.imageURL }}" alt="project thumbnail" />
 										<div class="card__body">
 											<h3 class="project__title">{{ project.title }}</h3>
 											<p><a class="project__author" href="{% url 'users:show' project.owner.id %}">By {{ project.owner.name }}</a></p>
