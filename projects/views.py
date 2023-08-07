@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from .models import Project
+from .models import Project, Tag
 from .forms import ProjectForm, ReviewForm
 
 
@@ -50,11 +50,16 @@ def create(request):
     profile = request.user.profile
     form = ProjectForm()
     if request.method == 'POST':
+        newtags = request.POST.get('newtags').replace(',', ' ').split()
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save(commit=False)
             project.owner = profile
             project.save()
+
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
             messages.success(request, "You successfully added a project.")
             return redirect('users:account')
 
@@ -91,9 +96,13 @@ def edit(request, id):
     project = profile.project_set.get(id=id)
     form = ProjectForm(instance=project)
     if request.method == 'POST':
+        newtags = request.POST.get('newtags').replace(',', ' ').split()
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
-            form.save()
+            project = form.save()
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
             return redirect('users:account')
 
     context = {'form': form}
