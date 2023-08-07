@@ -105,7 +105,10 @@ def edit(request, id):
                 project.tags.add(tag)
             return redirect('users:account')
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'project': project
+    }
     return render(request, 'projects/create-edit.html', context)
 
 
